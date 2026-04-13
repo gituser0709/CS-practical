@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Machine [
+<!ELEMENT Machine (PunctChar*, Field*, FileChannel*, Register*, RegisterArray*, ConditionBit*, RAM*, Set*, Test*, Increment*, Shift*, Logical*, Arithmetic*, Branch*, TransferRtoR*, TransferRtoA*, TransferAtoR*, Decode*, SetCondBit*, IO*, MemoryAccess*, End, Comment*, EQU*, FetchSequence, MachineInstruction*, HighlightingInfo?, LoadingInfo?, ModuleWindowsInfo?) >
+<!ATTLIST Machine name CDATA "unnamed">
+<!ELEMENT PunctChar EMPTY>
+<!ATTLIST PunctChar char CDATA #REQUIRED use  (symbol|token|label|comment|pseudo|illegal) #REQUIRED>
+<!ELEMENT Field (FieldValue*)>
+<!ATTLIST Field name CDATA #REQUIRED type  (required|optional|ignored) #REQUIRED numBits CDATA #REQUIRED relativity (absolute|pcRelativePreIncr|pcRelativePostIncr) #REQUIRED defaultValue CDATA #REQUIRED signed (true|false) #REQUIRED offset CDATA #REQUIRED id ID #REQUIRED>
+<!ELEMENT FieldValue EMPTY>
+<!ATTLIST FieldValue name CDATA #REQUIRED value CDATA #REQUIRED>
+<!ELEMENT FileChannel EMPTY>
+<!ATTLIST FileChannel file CDATA #REQUIRED id ID #REQUIRED>
+<!ELEMENT Register EMPTY>
+<!ATTLIST Register name CDATA #REQUIRED width CDATA #REQUIRED id ID #REQUIRED>
+<!ELEMENT RegisterArray (Register+)>
+<!ATTLIST RegisterArray name CDATA #REQUIRED width CDATA #REQUIRED length CDATA #REQUIRED id ID #REQUIRED>
+<!ELEMENT ConditionBit EMPTY>
+<!ATTLIST ConditionBit name CDATA #REQUIRED bit CDATA #REQUIRED register IDREF #REQUIRED halt (true|false) "false" id ID #REQUIRED>
+<!ELEMENT RAM EMPTY>
+<!ATTLIST RAM name CDATA #REQUIRED length CDATA #REQUIRED id ID #REQUIRED cellSize CDATA "8">
+<!ELEMENT Increment EMPTY>
+<!ATTLIST Increment name CDATA #REQUIRED register IDREF #REQUIRED overflowBit IDREF #IMPLIED delta CDATA #REQUIRED id ID #REQUIRED>
+<!ELEMENT Arithmetic EMPTY>
+<!ATTLIST Arithmetic name CDATA #REQUIRED type (ADD|SUBTRACT|MULTIPLY|DIVIDE) #REQUIRED source1 IDREF #REQUIRED source2 IDREF #REQUIRED destination IDREF #REQUIRED overflowBit IDREF #IMPLIED  carryBit IDREF #IMPLIED  id ID #REQUIRED>
+<!ELEMENT TransferRtoR EMPTY>
+<!ATTLIST TransferRtoR name CDATA #REQUIRED source IDREF #REQUIRED srcStartBit CDATA #REQUIRED dest IDREF #REQUIRED destStartBit CDATA #REQUIRED numBits CDATA #REQUIRED id ID #REQUIRED>
+<!ELEMENT TransferRtoA EMPTY>
+<!ATTLIST TransferRtoA name CDATA #REQUIRED source IDREF #REQUIRED srcStartBit CDATA #REQUIRED dest IDREF #REQUIRED destStartBit CDATA #REQUIRED numBits CDATA #REQUIRED index IDREF #REQUIRED indexStart CDATA #IMPLIED indexNumBits CDATA #IMPLIED id ID #REQUIRED>
+<!ELEMENT TransferAtoR EMPTY>
+<!ATTLIST TransferAtoR name CDATA #REQUIRED source IDREF #REQUIRED srcStartBit CDATA #REQUIRED dest IDREF #REQUIRED destStartBit CDATA #REQUIRED numBits CDATA #REQUIRED index IDREF #REQUIRED indexStart CDATA #IMPLIED indexNumBits CDATA #IMPLIED id ID #REQUIRED>
+<!ELEMENT Shift EMPTY>
+<!ATTLIST Shift name CDATA #REQUIRED source IDREF #REQUIRED destination IDREF #REQUIRED type (logical | arithmetic | cyclic) #REQUIRED direction (right | left) #REQUIRED distance CDATA #REQUIRED id ID #REQUIRED>
+<!ELEMENT Branch EMPTY>
+<!ATTLIST Branch name CDATA #REQUIRED amount CDATA #REQUIRED id ID #REQUIRED>
+<!ELEMENT Logical EMPTY>
+<!ATTLIST Logical name CDATA #REQUIRED source1 IDREF #REQUIRED source2 IDREF #REQUIRED destination IDREF #REQUIRED type (AND | OR | NAND | NOR | XOR | NOT) #REQUIRED id ID #REQUIRED>
+<!ELEMENT Set EMPTY>
+<!ATTLIST Set name CDATA #REQUIRED register IDREF #REQUIRED start CDATA #REQUIRED numBits CDATA #REQUIRED value CDATA #REQUIRED id ID #REQUIRED>
+<!ELEMENT Test EMPTY >
+<!ATTLIST Test name CDATA #REQUIRED register IDREF #REQUIRED start CDATA #REQUIRED numBits CDATA #REQUIRED comparison (EQ | NE | LT | GT | LE | GE ) #REQUIRED value CDATA #REQUIRED omission CDATA #REQUIRED id ID #REQUIRED>
+<!ELEMENT Decode EMPTY >
+<!ATTLIST Decode name CDATA #REQUIRED ir IDREF #REQUIRED id ID #REQUIRED>
+<!ELEMENT IO EMPTY >
+<!ATTLIST IO name CDATA #REQUIRED direction (input | output) #REQUIRED type (integer | ascii | unicode) #REQUIRED buffer IDREF #REQUIRED connection CDATA #IMPLIED id ID #REQUIRED>
+<!ELEMENT MemoryAccess EMPTY >
+<!ATTLIST MemoryAccess name CDATA #REQUIRED direction (read | write ) #REQUIRED memory IDREF #REQUIRED data IDREF #REQUIRED address IDREF #REQUIRED id ID #REQUIRED>
+<!ELEMENT SetCondBit EMPTY >
+<!ATTLIST SetCondBit name CDATA #REQUIRED bit IDREF #REQUIRED value (0 | 1) #REQUIRED id ID #REQUIRED>
+<!ELEMENT End EMPTY>
+<!ATTLIST End id ID #REQUIRED>
+<!ELEMENT Comment EMPTY>
+<!ATTLIST Comment name CDATA #REQUIRED id ID #REQUIRED>
+<!ELEMENT Microinstruction EMPTY>
+<!ATTLIST Microinstruction microRef IDREF #REQUIRED>
+<!ELEMENT MachineInstruction (Microinstruction*)>
+<!ATTLIST MachineInstruction name CDATA #REQUIRED opcode CDATA #REQUIRED format CDATA #REQUIRED>
+<!ELEMENT FetchSequence (Microinstruction*) >
+<!ELEMENT EQU EMPTY>
+<!ATTLIST EQU name CDATA #REQUIRED value CDATA #REQUIRED>
+<!ELEMENT HighlightingInfo (RegisterRAMPair*)>
+<!ELEMENT RegisterRAMPair EMPTY>
+<!ATTLIST RegisterRAMPair register IDREF #REQUIRED ram IDREF #REQUIRED dynamic (true|false) #REQUIRED>
+<!ELEMENT LoadingInfo EMPTY>
+<!ATTLIST LoadingInfo ram IDREF #IMPLIED startingAddress CDATA "0">
+<!ELEMENT ModuleWindowsInfo ((RegisterWindowInfo | RegisterArrayWindowInfo | RAMWindowInfo)*) >
+<!ELEMENT RegisterWindowInfo EMPTY>
+<!ATTLIST RegisterWindowInfo top CDATA "50" left CDATA "50" width CDATA "300" height CDATA "150" base (Decimal|Binary|Hexadecimal|Ascii|UnsignedDec|Unicode)  "Decimal">
+<!ELEMENT RegisterArrayWindowInfo EMPTY>
+<!ATTLIST RegisterArrayWindowInfo array IDREF #REQUIRED top CDATA "50" left CDATA "50" width CDATA "300" height CDATA "150" base (Decimal|Binary|Hexadecimal|Ascii|UnsignedDec|Unicode) "Decimal">
+<!ELEMENT RAMWindowInfo EMPTY>
+<!ATTLIST RAMWindowInfo ram IDREF #REQUIRED cellSize CDATA "1" top CDATA "50" left CDATA "50" width CDATA "450" height CDATA "450" contentsbase (Decimal|Binary|Hexadecimal|Ascii|UnsignedDec|Unicode) "Decimal" addressbase (Decimal|Binary|Hexadecimal) "Decimal">
+]>
+
+<Machine name="LOGICAL FUNC" >
+	<!--............. Punctuation Options .............-->
+	<PunctChar char="!" use="symbol" />
+	<PunctChar char="#" use="symbol" />
+	<PunctChar char="$" use="symbol" />
+	<PunctChar char="%" use="symbol" />
+	<PunctChar char="&amp;" use="symbol" />
+	<PunctChar char="^" use="symbol" />
+	<PunctChar char="_" use="symbol" />
+	<PunctChar char="`" use="symbol" />
+	<PunctChar char="*" use="symbol" />
+	<PunctChar char="?" use="symbol" />
+	<PunctChar char="@" use="symbol" />
+	<PunctChar char="~" use="symbol" />
+	<PunctChar char="+" use="symbol" />
+	<PunctChar char="-" use="symbol" />
+	<PunctChar char="(" use="token" />
+	<PunctChar char=")" use="token" />
+	<PunctChar char="," use="token" />
+	<PunctChar char="/" use="token" />
+	<PunctChar char="=" use="token" />
+	<PunctChar char="[" use="token" />
+	<PunctChar char="\" use="token" />
+	<PunctChar char="]" use="token" />
+	<PunctChar char="{" use="token" />
+	<PunctChar char="|" use="token" />
+	<PunctChar char="}" use="token" />
+	<PunctChar char="." use="pseudo" />
+	<PunctChar char=":" use="label" />
+	<PunctChar char=";" use="comment" />
+
+	<!--......... machine instruction fields ............-->
+	<Field name="REGISTER" type="required" numBits="16" relativity="absolute" signed="false" offset="0" defaultValue="0" id="Field59bbe67a">
+	</Field>
+	<Field name="ADDR" type="required" numBits="12" relativity="absolute" signed="false" offset="0" defaultValue="0" id="Field4755ce61">
+	</Field>
+	<Field name="OP" type="required" numBits="4" relativity="absolute" signed="false" offset="0" defaultValue="0" id="Field2d763ad5">
+	</Field>
+
+	<!--............. FileChannels .................-->
+	<!-- none -->
+
+	<!--............. registers .....................-->
+	<Register name="AC" width="16" id="module.Register40dfd247" />
+	<Register name="AR" width="12" id="module.Register46516410" />
+	<Register name="DR" width="16" id="module.Register2f9e8c7d" />
+	<Register name="E" width="1" id="module.Register3322abc9" />
+	<Register name="I" width="1" id="module.Registerdd11a00" />
+	<Register name="IR" width="16" id="module.Register406d8e4e" />
+	<Register name="PC" width="12" id="module.Register1bcb0f5a" />
+	<Register name="S" width="1" id="module.Register3d118309" />
+
+	<!--............. register arrays ...............-->
+	<!-- none -->
+
+	<!--............. condition bits ................-->
+	<ConditionBit name="CARRY-BIT" bit="0" register="module.Register3d118309" halt="false" id="module.ConditionBit38959fb1" />
+	<ConditionBit name="HALT-BIT" bit="0" register="module.Register3322abc9" halt="true" id="module.ConditionBit14266913" />
+
+	<!--............. rams ..........................-->
+	<RAM name="MAIN" length="4096" cellSize="16" id="module.RAM57540512" />
+
+	<!--............. set ...........................-->
+	<!-- none -->
+
+	<!--............. test ..........................-->
+	<!-- none -->
+
+	<!--............. increment .....................-->
+	<Increment name="INCR-PC" register="module.Register1bcb0f5a" delta="1" id="microinstruction.Increment66ecdd3a" />
+
+	<!--............. shift .........................-->
+	<!-- none -->
+
+	<!--............. logical .......................-->
+	<Logical name="AC&lt;-AC nand DR" type="NAND" source1="module.Register40dfd247" source2="module.Register2f9e8c7d" destination="module.Register40dfd247" id="microinstruction.Logical40c3b9cd" />
+	<Logical name="AC&lt;-AC nor DR" type="NOR" source1="module.Register40dfd247" source2="module.Register2f9e8c7d" destination="module.Register40dfd247" id="microinstruction.Logical456a2c3f" />
+	<Logical name="AC&lt;-AC'" type="NOT" source1="module.Register40dfd247" source2="module.Register40dfd247" destination="module.Register40dfd247" id="microinstruction.Logical6e773bd" />
+	<Logical name="AC&lt;-AC^DR" type="AND" source1="module.Register40dfd247" source2="module.Register2f9e8c7d" destination="module.Register40dfd247" id="microinstruction.Logical60c8d8f5" />
+	<Logical name="AC&lt;-ACorDR" type="OR" source1="module.Register40dfd247" source2="module.Register2f9e8c7d" destination="module.Register40dfd247" id="microinstruction.Logical7440ebf1" />
+	<Logical name="AC&lt;AC xor DR" type="XOR" source1="module.Register40dfd247" source2="module.Register2f9e8c7d" destination="module.Register40dfd247" id="microinstruction.Logical3bd7e1f6" />
+
+	<!--............. arithmetic ....................-->
+	<Arithmetic name="AC&lt;-AC+DR" type="ADD" source1="module.Register40dfd247" source2="module.Register2f9e8c7d" destination="module.Register40dfd247" carryBit="module.ConditionBit38959fb1" id="microinstruction.Arithmetic7290ae41" />
+
+	<!--............. branch ........................-->
+	<!-- none -->
+
+	<!--............. transferRtoR ..................-->
+	<TransferRtoR name="AR&lt;-IR(4-15)" source="module.Register406d8e4e" srcStartBit="4" dest="module.Register46516410" destStartBit="0" numBits="12" id="microinstruction.TransferRtoR55d93ff1" />
+	<TransferRtoR name="AR&lt;-PC" source="module.Register1bcb0f5a" srcStartBit="0" dest="module.Register46516410" destStartBit="0" numBits="12" id="microinstruction.TransferRtoR22d2dccd" />
+
+	<!--............. transferRtoA ..................-->
+	<!-- none -->
+
+	<!--............. transferAtoR ..................-->
+	<!-- none -->
+
+	<!--............. decode ........................-->
+	<Decode name="DECODE-IR" ir="module.Register406d8e4e" id="microinstruction.Decode22d7d0a0" />
+
+	<!--............. set condition bit .............-->
+	<SetCondBit name="HALT" bit="module.ConditionBit14266913" value="1" id="microinstruction.SetCondBit55c2901d" />
+
+	<!--............. io ............................-->
+	<IO name="INPUT" direction="input" type="integer" buffer="module.Register40dfd247" connection="[console]" id="microinstruction.IO49781be3" />
+	<IO name="OUTPUT" direction="output" type="integer" buffer="module.Register40dfd247" connection="[console]" id="microinstruction.IO7df892b5" />
+
+	<!--............. memory access .................-->
+	<MemoryAccess name="DR&lt;-MAIN[AR]" direction="read" memory="module.RAM57540512" data="module.Register2f9e8c7d" address="module.Register46516410" id="microinstruction.MemoryAccess61360f7a" />
+	<MemoryAccess name="IR&lt;-MAIN[AR]" direction="read" memory="module.RAM57540512" data="module.Register406d8e4e" address="module.Register46516410" id="microinstruction.MemoryAccess20b53939" />
+	<MemoryAccess name="MAIN[AR]&lt;-AC" direction="write" memory="module.RAM57540512" data="module.Register40dfd247" address="module.Register46516410" id="microinstruction.MemoryAccess299b89cf" />
+
+	<!--............. end ...........................-->
+	<End id="microinstruction.End10cfdb73" />
+
+	<!--............. comment ...........................-->
+	<!-- none -->
+
+	<!--............. global equs ..................-->
+	<!-- none -->
+
+	<!--............. fetch sequence ................-->
+	<FetchSequence>
+		<Microinstruction microRef="microinstruction.TransferRtoR22d2dccd" />
+		<Microinstruction microRef="microinstruction.MemoryAccess20b53939" />
+		<Microinstruction microRef="microinstruction.Increment66ecdd3a" />
+		<Microinstruction microRef="microinstruction.TransferRtoR55d93ff1" />
+		<Microinstruction microRef="microinstruction.Decode22d7d0a0" />
+	</FetchSequence>
+
+	<!--............. machine instructions ..........-->
+
+	<MachineInstruction name="AND" opcode="0" format="OP ADDR" >
+		<Microinstruction microRef="microinstruction.MemoryAccess61360f7a" />
+		<Microinstruction microRef="microinstruction.Logical60c8d8f5" />
+		<Microinstruction microRef="microinstruction.End10cfdb73" />
+	</MachineInstruction>
+
+	<MachineInstruction name="NAND" opcode="5" format="OP ADDR" >
+		<Microinstruction microRef="microinstruction.MemoryAccess61360f7a" />
+		<Microinstruction microRef="microinstruction.Logical40c3b9cd" />
+		<Microinstruction microRef="microinstruction.End10cfdb73" />
+	</MachineInstruction>
+
+	<MachineInstruction name="NOR" opcode="4" format="OP ADDR" >
+		<Microinstruction microRef="microinstruction.MemoryAccess61360f7a" />
+		<Microinstruction microRef="microinstruction.Logical456a2c3f" />
+		<Microinstruction microRef="microinstruction.End10cfdb73" />
+	</MachineInstruction>
+
+	<MachineInstruction name="XOR" opcode="3" format="OP ADDR" >
+		<Microinstruction microRef="microinstruction.MemoryAccess61360f7a" />
+		<Microinstruction microRef="microinstruction.Logical3bd7e1f6" />
+		<Microinstruction microRef="microinstruction.End10cfdb73" />
+	</MachineInstruction>
+
+	<MachineInstruction name="NOT" opcode="2" format="REGISTER" >
+		<Microinstruction microRef="microinstruction.Logical6e773bd" />
+		<Microinstruction microRef="microinstruction.End10cfdb73" />
+	</MachineInstruction>
+
+	<MachineInstruction name="OR" opcode="1" format="OP ADDR" >
+		<Microinstruction microRef="microinstruction.MemoryAccess61360f7a" />
+		<Microinstruction microRef="microinstruction.Logical7440ebf1" />
+		<Microinstruction microRef="microinstruction.End10cfdb73" />
+	</MachineInstruction>
+
+	<MachineInstruction name="STA" opcode="6" format="OP ADDR" >
+		<Microinstruction microRef="microinstruction.MemoryAccess299b89cf" />
+		<Microinstruction microRef="microinstruction.End10cfdb73" />
+	</MachineInstruction>
+
+	<MachineInstruction name="HLT" opcode="e001" format="REGISTER" >
+		<Microinstruction microRef="microinstruction.SetCondBit55c2901d" />
+		<Microinstruction microRef="microinstruction.End10cfdb73" />
+	</MachineInstruction>
+
+	<MachineInstruction name="OUT" opcode="f400" format="REGISTER" >
+		<Microinstruction microRef="microinstruction.IO7df892b5" />
+		<Microinstruction microRef="microinstruction.End10cfdb73" />
+	</MachineInstruction>
+
+	<MachineInstruction name="INP" opcode="f800" format="REGISTER" >
+		<Microinstruction microRef="microinstruction.IO49781be3" />
+		<Microinstruction microRef="microinstruction.End10cfdb73" />
+	</MachineInstruction>
+
+	<!--............. highlighting info .............-->
+	<HighlightingInfo>
+	</HighlightingInfo>
+
+	<!--............. loading info ..................-->
+	<LoadingInfo ram="module.RAM57540512" startingAddress="0" />
+
+	<!--............. module window info ............-->
+	<ModuleWindowsInfo>
+	</ModuleWindowsInfo>
+
+</Machine>
